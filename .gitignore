@@ -1,0 +1,3 @@
+bin/ds
+bin/ds_debug
+*.o
