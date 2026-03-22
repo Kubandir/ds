@@ -1,0 +1,708 @@
+>>> FILE alacritty/alacritty.toml
+[window]
+opacity = 0.85
+blur = true
+
+[window.padding]
+x = 14
+y = 10
+
+[font.normal]
+family = "BigBlueTermPlus Nerd Font"
+
+[cursor.style]
+shape = "Beam"
+
+[colors.primary]
+background = "#{{bg}}"
+foreground = "#{{text}}"
+dim_foreground = "#{{text_dim}}"
+bright_foreground = "#{{text_hi}}"
+
+[colors.cursor]
+text   = "#{{bg}}"
+cursor = "#{{accent}}"
+
+[colors.vi_mode_cursor]
+text   = "#{{bg}}"
+cursor = "#{{accent_hi}}"
+
+[colors.search.matches]
+foreground = "#{{bg}}"
+background = "#{{accent}}"
+
+[colors.search.focused_match]
+foreground = "#{{bg}}"
+background = "#{{accent_hi}}"
+
+[colors.hints.start]
+foreground = "#{{bg}}"
+background = "#{{accent}}"
+
+[colors.hints.end]
+foreground = "#{{bg}}"
+background = "#{{panel}}"
+
+[colors.selection]
+text       = "#{{text}}"
+background = "#{{surface}}"
+
+[colors.normal]
+black   = "#{{bg_soft}}"
+red     = "#{{red}}"
+green   = "#{{green}}"
+yellow  = "#{{yellow}}"
+blue    = "#{{blue}}"
+magenta = "#{{magenta}}"
+cyan    = "#{{panel}}"
+white   = "#{{muted}}"
+
+[colors.bright]
+black   = "#{{dark2}}"
+red     = "#{{red_hi}}"
+green   = "#{{green_hi}}"
+yellow  = "#{{yellow_hi}}"
+blue    = "#{{accent}}"
+magenta = "#{{magenta_hi}}"
+cyan    = "#{{accent_hi}}"
+white   = "#{{text}}"
+
+[colors.dim]
+black   = "#{{bg}}"
+red     = "#{{dark_red}}"
+green   = "#{{dark_green}}"
+yellow  = "#{{dark_yellow}}"
+blue    = "#{{dark_blue}}"
+magenta = "#{{dark_magenta}}"
+cyan    = "#{{dark_cyan}}"
+white   = "#{{dark_text}}"
+<<< END
+
+>>> FILE fuzzel/fuzzel.ini
+[main]
+font=FiraCode Nerd Font:Medium:size=10
+prompt=❯ 
+lines=10
+width=20
+
+[border]
+radius=0
+
+[colors]
+background={{bg}}cc
+text={{text}}ff
+match={{accent_hi}}cc
+selection={{panel}}50
+selection-text={{text_hi}}ff
+border={{accent}}cc
+<<< END
+
+>>> FILE mango/autostart.sh
+#!/bin/sh
+_restart() {
+    pkill -x "$1" 2>/dev/null
+    sleep 0.1
+    shift
+    "$@" &
+}
+
+_restart swaybg swaybg -i "$HOME/Media/Wallpaper.png" --mode fill
+_restart mako mako
+_restart waybar waybar
+
+pkill -x xwayland-satellite 2>/dev/null
+sleep 0.1
+xwayland-satellite :1 &
+export DISPLAY=:1
+
+export XCURSOR_THEME=Bibata-Original-Ice
+export XCURSOR_SIZE=24
+gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Original-Ice'
+gsettings set org.gnome.desktop.interface cursor-size 24
+xsetroot -cursor_name left_ptr &
+<<< END
+
+>>> FILE mango/config.conf
+blur=0
+blur_layer=0
+blur_optimized=1
+blur_params_num_passes=2
+blur_params_radius=5
+blur_params_noise=0.02
+blur_params_brightness=0.9
+blur_params_contrast=0.9
+blur_params_saturation=1.2
+
+shadows=1
+layer_shadows=0
+shadow_only_floating=0
+shadows_size=10
+shadows_blur=30
+shadows_position_x=0
+shadows_position_y=5
+shadowscolor=0x{{overlay}}
+
+border_radius=8
+no_radius_when_single=0
+focused_opacity=1.0
+unfocused_opacity=1.0
+
+animations=1
+layer_animations=1
+animation_type_open=slide
+animation_type_close=slide
+animation_fade_in=1
+animation_fade_out=1
+tag_animation_direction=1
+zoom_initial_ratio=0.3
+zoom_end_ratio=0.8
+fadein_begin_opacity=0.5
+fadeout_begin_opacity=0.8
+animation_duration_move=200
+animation_duration_open=250
+animation_duration_tag=220
+animation_duration_close=200
+animation_duration_focus=0
+animation_curve_open=0.46,1.0,0.29,1
+animation_curve_move=0.46,1.0,0.29,1
+animation_curve_tag=0.46,1.0,0.29,1
+animation_curve_close=0.08,0.92,0,1
+animation_curve_focus=0.46,1.0,0.29,1
+animation_curve_opafadeout=0.5,0.5,0.5,0.5
+animation_curve_opafadein=0.46,1.0,0.29,1
+
+scroller_structs=20
+scroller_default_proportion=0.5
+scroller_focus_center=0
+scroller_prefer_center=0
+edge_scroller_pointer_focus=1
+scroller_default_proportion_single=1.0
+scroller_proportion_preset=0.33333,0.5,0.66667,1.0
+
+new_is_master=1
+default_mfact=0.5
+default_nmaster=1
+smartgaps=0
+
+hotarea_size=10
+enable_hotarea=1
+ov_tab_mode=0
+overviewgappi=5
+overviewgappo=30
+
+no_border_when_single=0
+axis_bind_apply_timeout=100
+focus_on_activate=0
+idleinhibit_ignore_visible=0
+sloppyfocus=0
+warpcursor=0
+focus_cross_monitor=1
+focus_cross_tag=1
+enable_floating_snap=1
+snap_distance=30
+cursor_size=24
+cursor_theme=Bibata-Original-Ice
+drag_tile_to_tile=1
+
+repeat_rate=40
+repeat_delay=300
+numlockon=1
+xkb_rules_layout=cz
+
+disable_trackpad=0
+tap_to_click=1
+tap_and_drag=1
+drag_lock=1
+trackpad_natural_scrolling=0
+disable_while_typing=1
+left_handed=0
+middle_button_emulation=0
+swipe_min_threshold=1
+
+mouse_natural_scrolling=0
+
+gappih=8
+gappiv=8
+gappoh=8
+gappov=8
+scratchpad_width_ratio=0.8
+scratchpad_height_ratio=0.9
+borderpx=2
+rootcolor=0x{{bg}}ff
+bordercolor=0x{{surface}}ff
+focuscolor=0x{{accent}}ff
+maximizescreencolor=0x{{accent}}ff
+urgentcolor=0x{{red}}ff
+scratchpadcolor=0x{{panel}}ff
+globalcolor=0x{{accent_hi}}ff
+overlaycolor=0x{{green}}ff
+
+tagrule=id:1,layout_name:scroller
+tagrule=id:2,layout_name:scroller
+tagrule=id:3,layout_name:scroller
+tagrule=id:4,layout_name:scroller
+tagrule=id:5,layout_name:scroller
+tagrule=id:6,layout_name:scroller
+tagrule=id:7,layout_name:scroller
+tagrule=id:8,layout_name:scroller
+tagrule=id:9,layout_name:scroller
+
+monitorrule=name:HDMI-A-1,width:3440,height:1440,refresh:120,x:0,y:0,scale:1,vrr:0,rr:0
+monitorrule=name:eDP-1,width:1920,height:1080,refresh:60,x:760,y:1440,scale:1,vrr:0,rr:0
+
+env=DISPLAY,:1
+
+exec=~/.config/mango/autostart.sh
+
+bind=SUPER,r,reload_config
+bind=SUPER,Return,spawn,alacritty
+bind=SUPER,d,spawn,fuzzel --border-width 3
+bind=SUPER,t,spawn,thunar
+bind=SUPER,s,spawn,firefox
+bind=SUPER,c,spawn,code
+bind=SUPER+SHIFT,s,spawn,screenshot-area
+bind=none,Print,spawn,grim ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png
+bind=SUPER+SHIFT,l,spawn,swaylock -c 000000
+bind=SUPER,b,spawn,sh -c "pkill -USR1 waybar"
+bind=SUPER+SHIFT,e,quit
+bind=SUPER,q,killclient,
+bind=SUPER,o,toggleoverview,
+bind=SUPER,v,togglefloating,
+bind=SUPER+SHIFT,f,togglefullscreen,
+bind=SUPER+SHIFT,Escape,togglefullscreen,
+bind=SUPER,f,togglemaximizescreen,
+
+bind=SUPER,Left,focusdir,left
+bind=SUPER,Right,focusdir,right
+bind=SUPER,Up,focusdir,up
+bind=SUPER,Down,focusdir,down
+bind=SUPER,h,focusdir,left
+bind=SUPER,j,focusdir,down
+bind=SUPER,k,focusdir,up
+bind=SUPER,l,focusdir,right
+
+bind=SUPER+CTRL,Left,exchange_client,left
+bind=SUPER+CTRL,Right,exchange_client,right
+bind=SUPER+CTRL,Up,exchange_client,up
+bind=SUPER+CTRL,Down,exchange_client,down
+bind=SUPER+CTRL,h,exchange_client,left
+bind=SUPER+CTRL,j,exchange_client,down
+bind=SUPER+CTRL,k,exchange_client,up
+bind=SUPER+CTRL,l,exchange_client,right
+
+bind=SUPER+SHIFT,Left,resizewin,-50,+0
+bind=SUPER+SHIFT,Right,resizewin,+50,+0
+bind=SUPER+SHIFT,Up,resizewin,+0,-50
+bind=SUPER+SHIFT,Down,resizewin,+0,+50
+
+bind=SUPER,1,view,1,0
+bind=SUPER,2,view,2,0
+bind=SUPER,3,view,3,0
+bind=SUPER,4,view,4,0
+bind=SUPER,5,view,5,0
+bind=SUPER,6,view,6,0
+bind=SUPER,7,view,7,0
+bind=SUPER,8,view,8,0
+bind=SUPER,9,view,9,0
+
+bind=SUPER+SHIFT,1,tag,1
+bind=SUPER+SHIFT,2,tag,2
+bind=SUPER+SHIFT,3,tag,3
+bind=SUPER+SHIFT,4,tag,4
+bind=SUPER+SHIFT,5,tag,5
+bind=SUPER+SHIFT,6,tag,6
+bind=SUPER+SHIFT,7,tag,7
+bind=SUPER+SHIFT,8,tag,8
+bind=SUPER+SHIFT,9,tag,9
+bind=SUPER,Page_Up,viewtoleft_have_client
+bind=SUPER,Page_Down,viewtoright_have_client
+
+bind=none,XF86AudioRaiseVolume,spawn,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+
+bind=none,XF86AudioLowerVolume,spawn,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-
+bind=none,XF86AudioMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bind=none,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bind=none,XF86MonBrightnessUp,spawn,brightnessctl --class=backlight set +10%
+bind=none,XF86MonBrightnessDown,spawn,brightnessctl --class=backlight set 10%-
+
+mousebind=SUPER,btn_left,moveresize,curmove
+mousebind=SUPER,btn_right,moveresize,curresize
+
+axisbind=SUPER,UP,viewtoleft_have_client
+axisbind=SUPER,DOWN,viewtoright_have_client
+
+layerrule=animation_type_open:zoom,layer_name:fuzzel
+layerrule=animation_type_close:zoom,layer_name:fuzzel
+<<< END
+
+>>> FILE waybar/config.jsonc
+{
+    "layer": "top",
+    "exclusive": true,
+    "passthrough": false,
+    "position": "top",
+    "spacing": 8,
+    "fixed-center": true,
+    "ipc": true,
+    "margin-top": 3,
+    "margin-left": 8,
+    "margin-right": 8,
+    "modules-left": [
+        "group/debian",
+        "clock",
+        "dwl/tags"
+    ],
+    "modules-center": [
+        "custom/dnd"
+    ],
+    "modules-right": [
+        "battery",
+        "group/system",
+        "group/connections"
+    ],
+    "custom/debian": {
+        "format": "<span size='large'></span>",
+        "tooltip": false
+    },
+    "dwl/tags": {
+        "format": "{name}",
+        "on-click": "dwl -c dwltags {id}",
+        "tooltip": false
+    },
+    "custom/dnd": {
+        "format": "{icon}",
+        "format-icons": {
+            "enabled": "<span size='large'>󰂛</span>",
+            "disabled": "<span size='large'>󰂚</span>"
+        },
+        "exec": "makoctl mode | grep -q enabled && echo enabled || echo disabled",
+        "on-click": "makoctl mode -t dnd",
+        "interval": 1,
+        "tooltip": false
+    },
+    "custom/whitespace": {
+        "format": " "
+    },
+    "group/debian": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/debian",
+            "custom/whitespace"
+        ]
+    },
+    "clock": {
+        "format": "<span size='large'>󰃭</span>  {:%b %d  %H:%M}",
+        "format-alt": "{:%Y-%m-%d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#{{cal_month}}'><b>{}</b></span>",
+                "days": "<span color='#{{cal_days}}'><b>{}</b></span>",
+                "weeks": "<span color='#{{cal_weeks}}'><b>W{}</b></span>",
+                "weekdays": "<span color='#{{cal_weekdays}}'><b>{}</b></span>",
+                "today": "<span color='#{{cal_today}}'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "<span size='large'>{icon}</span> {capacity}%",
+        "format-charging": "<span size='large'>󰂄</span> {capacity}%",
+        "format-plugged": "<span size='large'>󰚥</span> {capacity}%",
+        "format-icons": [
+            "<span size='large'>󰂎</span>",
+            "<span size='large'>󰁺</span>",
+            "<span size='large'>󰁻</span>",
+            "<span size='large'>󰁼</span>",
+            "<span size='large'>󰁽</span>",
+            "<span size='large'>󰁾</span>",
+            "<span size='large'>󰁿</span>",
+            "<span size='large'>󰂀</span>",
+            "<span size='large'>󰂁</span>",
+            "<span size='large'>󰂂</span>",
+            "<span size='large'>󰁹</span>"
+        ]
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+    "group/system": {
+        "orientation": "horizontal",
+        "modules": [
+            "cpu",
+            "memory",
+            "temperature"
+        ]
+    },
+    "group/connections": {
+        "orientation": "horizontal",
+        "modules": [
+            "network",
+            "pulseaudio",
+            "pulseaudio#microphone"
+        ]
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": true,
+        "interval": 1,
+        "min-size": 50
+    },
+    "memory": {
+        "format": " <span size='small'> </span><span size='large'>󰆼</span> {}%",
+        "tooltip-format": "Used: {used:0.1f}GB\nTotal: {total:0.1f}GB"
+    },
+    "temperature": {
+        "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input ",
+        "critical-threshold": 80,
+        "format-critical": "  <span></span> {temperatureC}°C",
+        "format": "  <span></span> {temperatureC}°C",
+        "format-icons": [
+            "<span size='large'></span>"
+        ]
+    },
+    "network": {
+        "format-wifi": " <span size='large'>{icon}</span><span size='small'>  </span>",
+        "format-ethernet": " <span size='large'>󰈁</span> ",
+        "format-linked": " <span size='large'>󰈁</span>  ",
+        "format-disconnected": " <span size='large'>󰤮</span>  ",
+        "tooltip-format": " <span size='large'>󰈁</span> {ifname} via {gwaddr}",
+        "format-icons": [
+            "󰤯",
+            "󰤟",
+            "󰤢",
+            "󰤥",
+            "󰤨"
+        ],
+        "on-click": "alacritty -e nmtui"
+    },
+    "bluetooth": {
+        "format": " <span size='large'>󰂯</span>  ",
+        "format-connected": " <span size='large'>󰂱</span>  ",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "blueman-manager"
+    },
+    "pulseaudio": {
+        "format": " {icon}   ",
+        "format-bluetooth": " <span size='large'>󰂰</span>   ",
+        "format-bluetooth-muted": "<span size='large'>󰂲</span>   ",
+        "format-muted": " <span size='large'>󰖁</span>   ",
+        "format-icons": {
+            "headphone": "<span size='large'>󰋋</span>",
+            "hands-free": "<span size='large'>󰋎</span>",
+            "headset": "<span size='large'>󰋎</span>",
+            "phone": "<span size='large'>󰏲</span>",
+            "portable": "<span size='large'>󰄝</span>",
+            "car": "<span size='large'>󰄋</span>",
+            "default": [
+                "<span size='large'>󰕿</span>",
+                "<span size='large'>󰖀</span>",
+                "<span size='large'>󰕾</span>"
+            ]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i audio-volume-muted-symbolic \"Volume toggled\"",
+        "on-click-right": "pavucontrol"
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "<span size='large'>󰍬</span> ",
+        "format-source-muted": "<span size='large'>󰍭</span> ",
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-sensitivity-muted-symbolic \"Microphone toggled\"",
+        "on-click-right": "pavucontrol"
+    }
+}
+<<< END
+
+>>> FILE waybar/style.css
+* {
+    font-family: "BigBlueTermPlusNerdFont", "BigBlueTerminal NFP", "FiraCode Nerd Font", monospace;
+    font-weight: normal;
+    font-size: 11.5px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: #{{text}};
+}
+
+.modules-left > widget > *:not(#workspaces),
+.modules-center > widget > *:not(#workspaces),
+.modules-right > widget > *:not(#workspaces) {
+    margin: 0 2px;
+    padding: 4px 12px;
+    background-color: rgba({{bg_rgb}}, 0.95);
+    border: 2px solid rgba({{accent_rgb}}, 0.75);
+    border-radius: 10px;
+    color: #{{text}};
+}
+
+#group {
+    background-color: #{{bg}};
+    border: 2px solid rgba({{accent_rgb}}, 0.4);
+    border-radius: 10px;
+    margin: 0 2px;
+    padding: 2px 4px;
+}
+
+group > widget > * {
+    margin: 0 2px;
+    padding: 4px 6px;
+    border: none;
+    background: none;
+    color: #{{text}};
+}
+
+group > widget:first-child > * {
+    margin-left: 0;
+}
+
+group > widget:last-child > * {
+    margin-right: 0;
+}
+
+.modules-left {
+    margin-left: 2px;
+}
+
+.modules-right {
+    margin-right: 2px;
+}
+
+#workspaces {
+    margin: 0 2px;
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: #{{bg}};
+    border: 2px solid rgba({{accent_rgb}}, 0.75);
+    border-radius: 10px;
+    margin: 0 2px;
+    color: #{{muted}};
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    background-color: #{{bg_soft}};
+    color: #{{text}};
+}
+
+#workspaces button.active {
+    background-color: #{{surface}};
+    color: #{{text}};
+}
+
+#custom-debian {
+    font-size: 15px;
+    padding: 4px 8px 4px 10px;
+}
+
+#custom-whitespace {
+    font-size: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+#custom-niri-windows {
+    font-family: 'Uiua386';
+    font-size: 16px;
+}
+
+#custom-dnd,
+#tray {
+    padding: 4px 8px;
+}
+
+#clock {
+    padding: 4px 14px;
+}
+
+#battery {
+    padding: 4px 12px;
+}
+
+#pulseaudio {
+    font-size: 13px;
+}
+
+#cpu {
+    min-width: 38px;
+}
+
+#network {
+    padding-right: 6px;
+}
+
+#battery.warning {
+    color: #{{yellow_hi}};
+}
+
+#battery.critical {
+    color: #{{red_hi}};
+}
+
+#battery progressbar {
+    background-color: #{{surface}};
+    border-radius: 2px;
+}
+
+#battery progressbar > progress {
+    min-width: 50px;
+    background-color: #{{green_hi}};
+    border-radius: 2px;
+}
+
+#tags {
+    padding: 0 2px;
+}
+
+#tags button {
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 5px;
+    color: #{{tag_idle}};
+    font-weight: bold;
+    transition: color 0.15s;
+    min-width: 0;
+}
+
+#tags button.occupied {
+    color: #{{tag_occupied}};
+}
+
+#tags button.focused {
+    color: #{{tag_focused}};
+}
+
+#tags button.urgent {
+    color: #{{tag_urgent}};
+}
+<<< END
+
+>>> FILE .zshrc
+export DS_THEME_BG="#{{bg}}"
+export DS_THEME_TEXT="#{{text}}"
+export DS_THEME_ACCENT="#{{accent}}"
+export DS_THEME_PANEL="#{{panel}}"
+<<< END

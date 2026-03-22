@@ -32,8 +32,11 @@ release: $(RELEASE_BIN)
 	fi
 
 install: release
+	sudo install -d /usr/local/share/ds
+	sudo install -m 644 configs/configs.ds /usr/local/share/ds/configs.ds
+	sudo install -m 644 configs/themes.ds /usr/local/share/ds/themes.ds
 	sudo install -m 755 $(RELEASE_BIN) /usr/local/bin/$(APP)
-	@echo "Installed /usr/local/bin/$(APP)"
+	@echo "Installed /usr/local/bin/$(APP) and /usr/local/share/ds/{configs.ds,themes.ds}"
 
 $(OBJ_DIR) $(BIN_DIR):
 	mkdir -p $@
